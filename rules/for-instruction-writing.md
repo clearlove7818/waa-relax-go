@@ -2,7 +2,7 @@
 
 适用于写给 agent 照着执行的文字：系统提示词、AGENTS.md、CLAUDE.md、skill，以及给 agent 的工作流程和规范。读者是模型。
 
-本场景管的是写给 Agent 执行的文字。通过 CLI、skill 或网页链接使用 STC 时，仍按产出文字的用途选择场景。
+本场景管的是写给 Agent 执行的文字。通过 CLI、skill 或网页接入本技能时，仍按产出文字的用途选择场景。
 
 通用规则（[`for-all.md`](for-all.md)）同样适用。
 

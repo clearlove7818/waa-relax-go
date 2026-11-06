@@ -1,7 +1,7 @@
 // The check command: checks Chinese text in files, directories or stdin against STC.
 import { lstatSync, readdirSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { join, resolve, parse } from 'node:path';
+import { join, resolve, parse, isAbsolute, sep } from 'node:path';
 import { lintText, loadDictionary, PROFILES, STYLES, QUOTES, quoteStyle } from './core.mjs';
 import { isCodeFile } from './extract.mjs';
 import { formatReport } from './report.mjs';
@@ -81,14 +81,19 @@ function parseArgs(argv) {
 }
 
 function selectedInfo(path) {
-  const absolute = resolve(path);
+  // Check each original component before resolve() can erase a symlink via "..".
+  const absolute = isAbsolute(path) ? path : `${process.cwd()}${sep}${path}`;
   const root = parse(absolute).root;
+  const parts = absolute.slice(root.length).split(sep).filter(Boolean);
   let current = root;
-  for (const part of absolute.slice(root.length).split(/[\\/]/).filter(Boolean)) {
+  let info = lstatSync(root);
+  for (const [index, part] of parts.entries()) {
     current = join(current, part);
-    if (lstatSync(current).isSymbolicLink()) throw new Error(`路径经过符号链接，未读取：${path}`);
+    info = lstatSync(current);
+    if (info.isSymbolicLink()) throw new Error(`路径经过符号链接，未读取：${path}`);
+    if (index < parts.length - 1 && !info.isDirectory()) throw new Error(`父路径不是目录，未读取：${path}`);
   }
-  return lstatSync(absolute);
+  return info;
 }
 
 function readSelectedFile(path) {

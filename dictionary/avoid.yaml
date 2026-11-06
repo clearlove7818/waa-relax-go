@@ -1,5 +1,5 @@
-# STC 不推荐写法
-# 按真实 AI 中文输出中的出现次数排定先后。格式见 README.md。
+# 不推荐写法
+# 按场景与真实含义使用，不作全局替换。例子是构造演示，不补入用户材料。格式见 README.md。
 
 - avoid: 应 / 应当 / 务必 / 一定要
   type: 强度词
@@ -26,14 +26,14 @@
   examples:
     - before: 我们会在三个工作日内回复。
       after: 客服团队会在 3 个工作日内回复。
-  profiles: [for-web-dev, for-document]
+  profiles: [for-document]
 
 - avoid: 建议 / 最好 / 尽量
   type: 强度词
   why: 说不清是要求还是推荐，做不到时算不算违反也不清楚
   use: 宜
   examples:
-    - before: 最好为每个函数写注释。
+    - before: 最好为每个公开函数写注释。
       after: 宜为每个公开函数写注释。
   profiles: [for-instruction-writing]
 
@@ -65,7 +65,7 @@
 - avoid: 优化 / 提升 / 改善（不带对象和数字时）
   type: 含糊动词
   why: 说不清改了什么、改了多少
-  use: 写出改了什么，以及改动前后的数字
+  use: 优先写已有依据的具体变化；只支持定性结论时保留定性，不编数字
   examples:
     - before: 优化了页面性能。
       after: 页面加载时间从 3 秒缩短到 1 秒。
@@ -251,10 +251,10 @@
 - avoid: 出错 / 异常（界面报错里）
   type: 含糊动词
   why: 用户不知道是什么失败了、接下来怎么办
-  use: 写“失败”，加上原因和下一步
+  use: 写清哪项操作失败；只补已有依据的原因、影响和恢复动作
   examples:
     - before: 系统异常，请稍后再试。
-      after: 保存失败：服务器暂时无法连接。1 分钟后重试。
+      after: 保存失败，原因尚未确定。
   profiles: [for-web-dev]
 
 - avoid: 实现 + 名词（实现增长、实现提升）

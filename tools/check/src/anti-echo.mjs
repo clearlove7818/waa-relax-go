@@ -45,7 +45,7 @@ export function reviewAntiEcho(files, document = { version: 1, decisions: [] }) 
   }
   const decisions = new Map();
   for (const item of document.decisions) {
-    if (!/^[a-f0-9]{64}$/.test(item?.id ?? '') || item.decision !== 'keep' || typeof item.reason !== 'string' || !item.reason.trim()) {
+    if (typeof item?.id !== 'string' || !/^[a-f0-9]{64}$/.test(item.id) || item.decision !== 'keep' || typeof item.reason !== 'string' || !item.reason.trim()) {
       throw new Error('每条复核记录必须包含有效的 id、decision: keep 和具体 reason。');
     }
     if (decisions.has(item.id)) throw new Error(`复核编号重复：${item.id}`);

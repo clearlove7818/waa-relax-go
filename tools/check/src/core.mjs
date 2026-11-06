@@ -172,6 +172,7 @@ export function lintSegments(segments, profile, dictionary, { style = 'relax-go'
     scan(original, new RegExp(`"[^"\\n]*[${CJK}][^"\\n]*"`, 'g'), (m) =>
       add(original, m.index, 'G17', 'warning', '可编辑中文中的直引号需按项目／引用约定确认', m[0], undefined,
         { title: '中文直引号待确认', reason: '可能是固定文本或机器字面量，不自动替换。', suggestion: chosenQuotes === 'preserve' ? '保持既有引文约定；先确认是否可编辑。' : quoteSuggestion }),
+      original.quotationText ?? original.text,
     );
     scan(original, new RegExp(`[${CJK}][A-Za-z0-9]|[A-Za-z0-9][${CJK}]`, 'g'), (m) =>
       add(segment, m.index, 'G19', 'warning', '中文与英文、数字之间宜空一格', m[0]),

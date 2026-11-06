@@ -13,11 +13,13 @@
 | 技能入口与读取顺序 | [SKILL.md](SKILL.md) |
 | 57 条完整规则，含解释、原因与示例 | [通用](rules/for-all.md)、[对话](rules/for-chat.md)、[文档](rules/for-document.md)、[界面](rules/for-web-dev.md)、[指令](rules/for-instruction-writing.md) |
 | 全部 51 不推荐＋29 推荐＋3 模板条目及完整字段 | [词表指南](dictionary/README.md) |
-| 十条低负担行为、六个例外、五种顾虑、持久边界与发出前检查 | [交互规则](references/interaction.md) |
-| 自然语言启停、四种编辑模式、独立技术文档协作 | [启停](references/activation-and-scope.md)、[编辑流程](references/editing-workflow.md)、[协作](references/tech-doc-compatibility.md) |
+| 十条低负担行为、六个例外、五种阅读阻力与发出前检查 | [交互规则](references/interaction.md) |
+| 自然语言启停、写作／完整润色／摘要／校对／审阅、独立技术文档协作 | [启停](references/activation-and-scope.md)、[编辑流程](references/editing-workflow.md)、[协作](references/tech-doc-compatibility.md) |
 | 可选只读检查器，无第三方运行依赖 | [工具说明](tools/README.md) |
 
-使用时由 `SKILL.md` 按场景读取完整规则与词表。
+从 `SKILL.md` 开始，按任务读取：普通问答使用入口的共同原则；材料编辑读取通用、词表与对应场景；复杂交互读取步骤与状态规则。完整审计有独立路径，覆盖全部本包规则和适用词表，逐项记录结果，不以轻入口省略检查。
+
+完整润色保留原有信息，摘要按授权取舍，校对只处理约定范围，审阅不自动写回。删冗余按整句的信息价值判断，不按否定词或字数计数；必要权限、失败和验证缺口仍须清楚。
 
 ## 怎么使用与停止
 
@@ -48,6 +50,8 @@
 
 技能使用 Markdown 和相对路径，不依赖平台专属工具或配置。只有可选检查器需要 Node.js。
 
+本包的表达与交互规则完整自足，无需安装、启用或读取 STC、i-have-adhd 来补齐日常能力。技术成品按下面的分工使用独立 tech-doc。
+
 ## 与 tech-doc 配合
 
 技术文档、产品文案和界面文案适用时，读取独立的 `tech-doc-style-chinese` 及其参考。技术成品遵循专门要求，周围对话遵循本技能；不可读取时，说明缺项并按本技能继续。
@@ -67,6 +71,10 @@ printf '%s\n' '点击「保存」。像素对齐。' | node waa-relax-go/tools/c
 检查器只读，支持文件或标准输入、四种场景、文本／Markdown／JSON 报告，以及 Anti-Echo 冗余复核。语义仍需人工判断；参数与限制见[工具说明](tools/README.md)。
 
 已验证环境为 macOS、Node.js 26.13.0；源码运行门槛为 Node.js 18+，其他版本兼容性未验证。没有运行时可直接按规则人工复核。
+
+## 维护与升级
+
+STC 或 i-have-adhd 更新，或发现值得吸收的新提示词、文章与案例时，按[升级维护指南](UPGRADE.md)比较、取舍、重构和验证。
 
 ## 致谢与许可
 

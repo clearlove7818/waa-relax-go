@@ -12,9 +12,25 @@ const protectLiterals = (text) => text
   .replace(/\{[^{}]*\}/g, mask)
   .replace(/(?:\.{0,2}\/|~\/|\/)[A-Za-z0-9_\u4e00-\u9fff./%?=&#+\-]+/g, mask);
 
+// Adapted from STC's syntax-quote masking; metadata remains fully protected here.
+function markdownQuotationLines(text) {
+  const chars = text.split('');
+  const tags = /<[A-Za-z][\w:-]*(?:\s+(?:[^\s<>"'=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?))*\s*\/?>/g;
+  const attributes = /(\s+[^\s<>"'=]+\s*=\s*)(["'])([\s\S]*?)\2/g;
+  for (const tag of text.matchAll(tags)) {
+    for (const attribute of tag[0].matchAll(attributes)) {
+      const first = tag.index + attribute.index + attribute[1].length;
+      chars[first] = ' ';
+      chars[first + attribute[3].length + 1] = ' ';
+    }
+  }
+  return chars.join('').split(/\r?\n/);
+}
+
 /** Markdown and plain text: skip code, URLs, comments, and STC's own bad examples (lines with ✗). */
 export function segmentsFromMarkdown(text) {
   const segments = [];
+  const quotationLines = markdownQuotationLines(text);
   let fence = null;
   let inComment = false;
   let skipNext = false;
@@ -22,7 +38,7 @@ export function segmentsFromMarkdown(text) {
   text.split(/\r?\n/).forEach((raw, i) => {
     const trimmed = raw.trim();
     if (i === 0 && trimmed === '---') { frontmatter = true; return; }
-    if (frontmatter) { if (trimmed === '---') frontmatter = false; return; }
+    if (frontmatter) { if (trimmed === '---' || trimmed === '...') frontmatter = false; return; }
     if (fence) {
       const close = trimmed.match(/^(`+|~+)\s*$/);
       if (close && close[1][0] === fence[0] && close[1].length >= fence.length) fence = null;
@@ -53,7 +69,12 @@ export function segmentsFromMarkdown(text) {
     if (/^\s*\[[^\]]+\]:\s*\S+/.test(raw)) return;
     if (/^\s*(?:>| {4}|\t)/.test(raw)) return;
     const line = protectLiterals(raw);
-    if (CJK.test(line)) segments.push({ line: i + 1, col: 1, text: line });
+    if (CJK.test(line)) {
+      const segment = { line: i + 1, col: 1, text: line };
+      const quotationText = line.split('').map((ch, col) => quotationLines[i][col] !== raw[col] ? ' ' : ch).join('');
+      if (quotationText !== line) segment.quotationText = quotationText;
+      segments.push(segment);
+    }
   });
   return segments;
 }
