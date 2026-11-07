@@ -12,7 +12,8 @@
 
 ## 维护参考
 
-- STC 对应来源版本：`902f456328e42e589d3cc925bc95d57b9feb633d`。采用内容与适配情况见 [UPGRADE.md](UPGRADE.md)。
+- STC 运行规则、词表及已有检查器适配的来源版本：`902f456328e42e589d3cc925bc95d57b9feb633d`；上游增量已处理至同步基线 `04cdd24e192121fc75f7da84b9be7a441ede36f6`。采用内容与适配情况见 [UPGRADE.md](UPGRADE.md)。
+- STC [历史评测报告与证据说明](https://github.com/daimonia-ai/STC-Simplified-Technical-Chinese/tree/04cdd24e192121fc75f7da84b9be7a441ede36f6/benchmarks)用于本次维护方法与结论边界的适配。本次未引入其历史协议、规则快照、输出数据或重算脚本。上游涉及 MCTS 的改写与引用文本受其另行声明的 GPL-3.0 条款约束，未纳入本包，也不由本包既有许可重新授权。
 - i-have-adhd 对应来源版本：`1ecea1993b7fce257ffbd686c070948b5e07eda6`，参考其 `skills/i-have-adhd/SKILL.md`。
 - [LINUX DO 提示词讨论](https://linux.do/t/topic/3129955)作为表达行为设计参考。相关方法经提炼融入本包规则，不整段转载提示词；未将原帖视为具有独立授权声明的软件或规则包。
 
